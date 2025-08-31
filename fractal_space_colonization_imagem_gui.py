@@ -175,7 +175,7 @@ def run_fractal_generation(params, output_queue):
 class FractalApp:
     def __init__(self, master):
         self.master = master
-        self.master.title("Gerador de Fractal Orgânico")
+        self.master.title("Gerador de Fractal Orgânico - Grupo: Imagem(i)Materia")
         self.master.geometry("1200x800")
 
         self.style = ttk.Style()
