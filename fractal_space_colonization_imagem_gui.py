@@ -2,7 +2,7 @@
 # =============================================================================
 #
 #   Arquivo: space_colonization_final.py
-#   Data: 30 de Agosto de 2025
+#   Data: 02 de Setembro de 2025
 #
 #   Descrição:
 #   Este script gera uma imagem de uma estrutura fractal que simula o
@@ -27,9 +27,9 @@
 #                   Carvalho
 #
 # Parte do projeto para o evento #24.ART - Encontro Internacional de Arte e
-#                                   Tecnologia / Exposição EmMeio#17
+#                                       Tecnologia / Exposição EmMeio#17
 #
-# Nome da Obra: Existência Híbrida: (des)dobrando corpos numa anatomia gráfica 
+# Nome da Obra: Existência Híbrida: (des)dobrando corpos numa anatomia gráfica
 #                                   em Realidade Aumentada
 # =============================================================================
 import tkinter as tk
@@ -42,22 +42,24 @@ import threading
 import queue
 
 # =============================================================================
-# NÚCLEO DO ALGORITMO DE GERAÇÃO DO FRACTAL (sem alterações)
+# NÚCLEO DO ALGORITMO DE GERAÇÃO DO FRACTAL
 # =============================================================================
 def run_fractal_generation(params, output_queue):
     try:
         # 1. INICIALIZAÇÃO E GERAÇÃO DE ATRATORES
         output_queue.put({'status': 'Carregando máscara e gerando atratores...'})
         
-        mask_img = Image.open(params['mask_path']).convert('L')
-        mask_img = mask_img.resize((params['width'], params['height']), Image.Resampling.LANCZOS)
-        mask_pixels = mask_img.load()
+        # Carrega a máscara original para uso na amostragem e para o canal alpha final
+        original_mask_img = Image.open(params['mask_path']).convert('L')
+        mask_img_for_sampling = original_mask_img.resize((params['width'], params['height']), Image.Resampling.LANCZOS)
+        mask_pixels = mask_img_for_sampling.load()
 
         attractors = []
         while len(attractors) < params['num_attractors']:
             x = random.randint(0, params['width'] - 1)
             y = random.randint(0, params['height'] - 1)
-            if mask_pixels[x, y] < 128:
+            # Verifica a cor do pixel na máscara: se for escuro (abaixo de 128), adiciona atrator
+            if mask_pixels[x, y] < 128: 
                 attractors.append({'id': len(attractors), 'pos': np.array([x, y], dtype=float)})
         
         if not attractors:
@@ -162,7 +164,25 @@ def run_fractal_generation(params, output_queue):
             if node['parent']:
                 p1 = node['parent']['pos']
                 p2 = node['pos']
-                draw.line((p1[0], p1[1], p2[0], p2[1]), fill=params['tree_color'], width=1)
+                draw.line((p1[0], p1[1], p2[0], p2[1]), fill=params['tree_color'], width=params['line_width'])
+        
+        # =================== MUDANÇA: APLICAR MÁSCARA ALPHA ===================
+        # Redimensiona a máscara original para as dimensões finais da imagem do fractal
+        alpha_mask = original_mask_img.resize((params['width'], params['height']), Image.Resampling.LANCZOS)
+        
+        # O Pillow usa 255 para opaco e 0 para transparente no canal alpha.
+        # Nossos atratores são gerados em áreas escuras (abaixo de 128), 
+        # então queremos que essas áreas sejam opacas e o resto transparente.
+        # Precisamos inverter a máscara se a área de interesse for escura.
+        # Se a máscara original era preta para a área do fractal e branca para o fundo:
+        # 0 (preto) deve virar 255 (opaco)
+        # 255 (branco) deve virar 0 (transparente)
+        # Então, subtraímos de 255.
+        alpha_mask = Image.eval(alpha_mask, lambda x: 255 - x)
+
+        # Converte a imagem RGB para RGBA e aplica o canal alpha
+        image.putalpha(alpha_mask)
+        # ======================================================================
         
         output_queue.put({'status': 'Concluído!', 'progress': 100, 'image': image})
 
@@ -181,6 +201,7 @@ class FractalApp:
         self.style = ttk.Style()
         self.style.theme_use('clam')
 
+        # --- Variáveis de controle ---
         self.mask_path = tk.StringVar(value="")
         self.num_attractors = tk.IntVar(value=1500)
         self.kill_distance = tk.IntVar(value=10)
@@ -188,11 +209,9 @@ class FractalApp:
         self.stagnation_limit = tk.IntVar(value=10)
         self.bg_color = '#0a0a14'
         self.tree_color = '#ffffd0'
+        self.line_width = tk.IntVar(value=1)
         
-        # =================== MUDANÇA: ARMAZENAR A IMAGEM GERADA ===================
         self.generated_image = None
-        # ========================================================================
-
         self.generation_thread = None
         self.queue = queue.Queue()
 
@@ -219,29 +238,31 @@ class FractalApp:
         self.file_label = ttk.Label(controls_inner_frame, text="Nenhum arquivo selecionado.", wraplength=280)
         self.file_label.grid(row=1, column=0, columnspan=2, pady=5)
 
+        # Sliders
         self.create_slider(controls_inner_frame, "Nº de Atratores:", self.num_attractors, 200, 5000, 2)
         self.create_slider(controls_inner_frame, "Distância de Remoção:", self.kill_distance, 2, 30, 3)
         self.create_slider(controls_inner_frame, "Tamanho do Passo:", self.step_size, 1, 20, 4)
         self.create_slider(controls_inner_frame, "Limite de Estagnação:", self.stagnation_limit, 5, 50, 5)
+        self.create_slider(controls_inner_frame, "Espessura da Linha:", self.line_width, 1, 10, 6)
 
-        ttk.Label(controls_inner_frame, text="Cor do Fundo:").grid(row=6, column=0, sticky="w", pady=10)
+        # Color Pickers
+        ttk.Label(controls_inner_frame, text="Cor do Fundo:").grid(row=7, column=0, sticky="w", pady=10)
         self.bg_color_btn = tk.Button(controls_inner_frame, text="Escolher", bg=self.bg_color, command=lambda: self.pick_color('bg'))
-        self.bg_color_btn.grid(row=6, column=1, sticky="ew")
+        self.bg_color_btn.grid(row=7, column=1, sticky="ew")
 
-        ttk.Label(controls_inner_frame, text="Cor da Árvore:").grid(row=7, column=0, sticky="w", pady=5)
+        ttk.Label(controls_inner_frame, text="Cor da Árvore:").grid(row=8, column=0, sticky="w", pady=5)
         self.tree_color_btn = tk.Button(controls_inner_frame, text="Escolher", bg=self.tree_color, command=lambda: self.pick_color('tree'))
-        self.tree_color_btn.grid(row=7, column=1, sticky="ew")
+        self.tree_color_btn.grid(row=8, column=1, sticky="ew")
 
+        # Action Buttons and Progress Bar
         self.run_button = ttk.Button(controls_inner_frame, text="Gerar Fractal", command=self.start_generation)
-        self.run_button.grid(row=8, column=0, columnspan=2, sticky="ew", pady=(20, 5))
+        self.run_button.grid(row=9, column=0, columnspan=2, sticky="ew", pady=(20, 5))
         
-        # =================== MUDANÇA: NOVO BOTÃO DE SALVAR ===================
         self.save_button = ttk.Button(controls_inner_frame, text="Salvar Imagem...", command=self.save_image, state=tk.DISABLED)
-        self.save_button.grid(row=9, column=0, columnspan=2, sticky="ew", pady=5)
-        # ========================================================================
+        self.save_button.grid(row=10, column=0, columnspan=2, sticky="ew", pady=5)
 
         self.progress_bar = ttk.Progressbar(controls_inner_frame, orient='horizontal', mode='determinate')
-        self.progress_bar.grid(row=10, column=0, columnspan=2, sticky="ew", pady=5)
+        self.progress_bar.grid(row=11, column=0, columnspan=2, sticky="ew", pady=5)
         
         log_frame = ttk.Frame(self.controls_frame)
         log_frame.pack(fill=tk.BOTH, expand=True, pady=(10, 0))
@@ -288,10 +309,8 @@ class FractalApp:
         self.log_box.delete('1.0', tk.END)
         self.log_box.config(state=tk.DISABLED)
         
-        # =================== MUDANÇA: DESABILITAR BOTÃO DE SALVAR ===================
         self.save_button.config(state=tk.DISABLED)
         self.generated_image = None
-        # ===========================================================================
 
         self.run_button.config(state=tk.DISABLED)
         self.progress_bar['value'] = 0
@@ -305,6 +324,7 @@ class FractalApp:
             'stagnation_limit': self.stagnation_limit.get(),
             'bg_color': self.bg_color,
             'tree_color': self.tree_color,
+            'line_width': self.line_width.get(),
             'width': 800,
             'height': 1000
         }
@@ -319,10 +339,10 @@ class FractalApp:
             if 'status' in message: self.log_message(message['status'])
             if 'progress' in message: self.progress_bar['value'] = message['progress']
             if 'image' in message:
-                self.generated_image = message['image'] # Armazena a imagem
+                self.generated_image = message['image']
                 self.display_image(self.generated_image)
                 self.run_button.config(state=tk.NORMAL)
-                self.save_button.config(state=tk.NORMAL) # Habilita o botão de salvar
+                self.save_button.config(state=tk.NORMAL)
                 self.log_message("--- Fim da Execução ---")
                 return 
         except queue.Empty:
@@ -333,25 +353,25 @@ class FractalApp:
         else:
             self.run_button.config(state=tk.NORMAL)
 
-    # =================== MUDANÇA: NOVA FUNÇÃO PARA SALVAR A IMAGEM ===================
     def save_image(self):
         if self.generated_image is None:
             self.log_message("Nenhuma imagem gerada para salvar.")
             return
 
         filepath = filedialog.asksaveasfilename(
-            defaultextension=".png",
+            defaultextension=".png", # PNG suporta transparência
             filetypes=[("PNG files", "*.png"), ("JPEG files", "*.jpg"), ("All files", "*.*")],
             title="Salvar imagem como..."
         )
 
         if filepath:
             try:
+                # Se o arquivo for salvo como JPG, a transparência será perdida.
+                # A Pillow automaticamente cuida disso, mas é bom estar ciente.
                 self.generated_image.save(filepath)
                 self.log_message(f"Imagem salva com sucesso em:\n{filepath}")
             except Exception as e:
                 self.log_message(f"Erro ao salvar a imagem: {e}")
-    # ==============================================================================
 
     def display_image(self, img):
         self.master.after(50, lambda: self._update_image_display(img))
@@ -368,7 +388,8 @@ class FractalApp:
         scale = min(frame_w / w, frame_h / h)
         new_w, new_h = int(w * scale), int(h * scale)
         
-        img_resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS)
+        # Redimensiona a imagem para exibição. Certifica-se de que o modo é RGBA para manter a transparência
+        img_resized = img.resize((new_w, new_h), Image.Resampling.LANCZOS).convert("RGBA")
         
         self.tk_image = ImageTk.PhotoImage(img_resized)
         self.image_label.config(image=self.tk_image, text="")
