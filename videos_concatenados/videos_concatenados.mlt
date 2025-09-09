@@ -1,0 +1,354 @@
+<?xml version="1.0" standalone="no"?>
+<mlt LC_NUMERIC="C" version="7.4.0" title="Shotcut version 22.01.30" producer="main_bin">
+  <profile description="automatic" width="800" height="800" progressive="1" sample_aspect_num="1" sample_aspect_den="1" display_aspect_num="1" display_aspect_den="1" frame_rate_num="30" frame_rate_den="1" colorspace="601"/>
+  <chain id="chain0" out="00:00:04.200">
+    <property name="length">00:00:04.233</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="ignore_points">0</property>
+    <property name="shotcut:caption">vid01_00.webm</property>
+    <property name="xml">was here</property>
+  </chain>
+  <playlist id="main_bin">
+    <property name="xml_retain">1</property>
+    <entry producer="chain0" in="00:00:00.000" out="00:00:04.200"/>
+  </playlist>
+  <producer id="black" in="00:00:00.000" out="00:00:17.833">
+    <property name="length">00:00:17.867</property>
+    <property name="eof">pause</property>
+    <property name="resource">0</property>
+    <property name="aspect_ratio">1</property>
+    <property name="mlt_service">color</property>
+    <property name="mlt_image_format">rgba</property>
+    <property name="set.test_audio">0</property>
+  </producer>
+  <playlist id="background">
+    <entry producer="black" in="00:00:00.000" out="00:00:17.833"/>
+  </playlist>
+  <chain id="chain1" out="00:00:04.200">
+    <property name="length">00:00:04.233</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="ignore_points">0</property>
+    <property name="shotcut:caption">vid01_00.webm</property>
+    <property name="xml">was here</property>
+    <filter id="filter0" out="00:00:04.167">
+      <property name="background">color:#00000000</property>
+      <property name="mlt_service">affine</property>
+      <property name="shotcut:filter">affineSizePosition</property>
+      <property name="transition.fill">1</property>
+      <property name="transition.distort">0</property>
+      <property name="transition.rect">0 0 800 800 1</property>
+      <property name="transition.valign">middle</property>
+      <property name="transition.halign">center</property>
+      <property name="shotcut:animIn">00:00:00.000</property>
+      <property name="shotcut:animOut">00:00:00.000</property>
+      <property name="transition.threads">0</property>
+      <property name="transition.fix_rotate_x">270</property>
+    </filter>
+  </chain>
+  <producer id="producer0" in="00:00:00.000" out="00:28:13.300">
+    <property name="length">00:28:13.333</property>
+    <property name="eof">pause</property>
+    <property name="resource">0.0025:/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="aspect_ratio">1</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">1</property>
+    <property name="warp_speed">0.0025</property>
+    <property name="warp_resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">timewarp</property>
+    <property name="shotcut:producer">avformat</property>
+    <property name="video_delay">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="shotcut:caption">vid01_00.webm (0.0025x)</property>
+    <property name="xml">was here</property>
+    <filter id="filter1" in="00:28:00.000" out="00:28:00.967">
+      <property name="background">color:#00000000</property>
+      <property name="mlt_service">affine</property>
+      <property name="shotcut:filter">affineSizePosition</property>
+      <property name="transition.fill">1</property>
+      <property name="transition.distort">0</property>
+      <property name="transition.rect">0 0 800 800 1</property>
+      <property name="transition.valign">middle</property>
+      <property name="transition.halign">center</property>
+      <property name="shotcut:animIn">00:00:00.000</property>
+      <property name="shotcut:animOut">00:00:00.000</property>
+      <property name="transition.threads">0</property>
+      <property name="transition.fix_rotate_x">270</property>
+    </filter>
+    <filter id="filter2" in="00:28:00.000" out="00:28:00.967">
+      <property name="start">1</property>
+      <property name="level">00:00:00.000=1;00:00:00.967=0</property>
+      <property name="mlt_service">brightness</property>
+      <property name="shotcut:filter">fadeOutBrightness</property>
+      <property name="alpha">1</property>
+      <property name="shotcut:animOut">00:00:01.000</property>
+    </filter>
+  </producer>
+  <playlist id="playlist0">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V1</property>
+    <blank length="00:00:12.667"/>
+    <entry producer="chain1" in="00:00:00.000" out="00:00:04.167"/>
+    <entry producer="producer0" in="00:28:00.000" out="00:28:00.967"/>
+  </playlist>
+  <chain id="chain2" out="00:00:04.200">
+    <property name="length">00:00:04.233</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="ignore_points">0</property>
+    <property name="shotcut:caption">vid01_00.webm</property>
+    <property name="xml">was here</property>
+    <filter id="filter3" out="00:00:04.167">
+      <property name="background">color:#00000000</property>
+      <property name="mlt_service">affine</property>
+      <property name="shotcut:filter">affineSizePosition</property>
+      <property name="transition.fill">1</property>
+      <property name="transition.distort">0</property>
+      <property name="transition.rect">0 0 800 800 1</property>
+      <property name="transition.valign">middle</property>
+      <property name="transition.halign">center</property>
+      <property name="shotcut:animIn">00:00:00.000</property>
+      <property name="shotcut:animOut">00:00:00.000</property>
+      <property name="transition.threads">0</property>
+      <property name="transition.fix_rotate_x">180</property>
+    </filter>
+  </chain>
+  <producer id="producer1" in="00:00:00.000" out="00:28:13.300">
+    <property name="length">00:28:13.333</property>
+    <property name="eof">pause</property>
+    <property name="resource">0.0025:/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="aspect_ratio">1</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">1</property>
+    <property name="warp_speed">0.0025</property>
+    <property name="warp_resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">timewarp</property>
+    <property name="shotcut:producer">avformat</property>
+    <property name="video_delay">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="shotcut:caption">vid01_00.webm (0.0025x)</property>
+    <property name="xml">was here</property>
+    <filter id="filter4" in="00:28:00.000" out="00:28:05.167">
+      <property name="background">color:#00000000</property>
+      <property name="mlt_service">affine</property>
+      <property name="shotcut:filter">affineSizePosition</property>
+      <property name="transition.fill">1</property>
+      <property name="transition.distort">0</property>
+      <property name="transition.rect">0 0 800 800 1</property>
+      <property name="transition.valign">middle</property>
+      <property name="transition.halign">center</property>
+      <property name="shotcut:animIn">00:00:00.000</property>
+      <property name="shotcut:animOut">00:00:00.000</property>
+      <property name="transition.threads">0</property>
+      <property name="transition.fix_rotate_x">180</property>
+    </filter>
+    <filter id="filter5" in="00:28:00.000" out="00:28:05.167">
+      <property name="start">1</property>
+      <property name="level">00:00:04.200=1;00:00:05.167=0</property>
+      <property name="mlt_service">brightness</property>
+      <property name="shotcut:filter">fadeOutBrightness</property>
+      <property name="alpha">1</property>
+      <property name="shotcut:animOut">00:00:01.000</property>
+    </filter>
+  </producer>
+  <playlist id="playlist1">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V2</property>
+    <blank length="00:00:08.467"/>
+    <entry producer="chain2" in="00:00:00.000" out="00:00:04.167"/>
+    <entry producer="producer1" in="00:28:00.000" out="00:28:05.167"/>
+  </playlist>
+  <chain id="chain3" out="00:00:04.200">
+    <property name="length">00:00:04.233</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="ignore_points">0</property>
+    <property name="shotcut:caption">vid01_00.webm</property>
+    <property name="xml">was here</property>
+    <filter id="filter6" out="00:00:04.167">
+      <property name="mlt_service">avfilter.vflip</property>
+    </filter>
+  </chain>
+  <producer id="producer2" in="00:00:00.000" out="00:28:13.300">
+    <property name="length">00:28:13.333</property>
+    <property name="eof">pause</property>
+    <property name="resource">0.0025:/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="aspect_ratio">1</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">1</property>
+    <property name="warp_speed">0.0025</property>
+    <property name="warp_resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">timewarp</property>
+    <property name="shotcut:producer">avformat</property>
+    <property name="video_delay">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="shotcut:caption">vid01_00.webm (0.0025x)</property>
+    <property name="xml">was here</property>
+    <filter id="filter7" in="00:28:00.000" out="00:28:09.400">
+      <property name="mlt_service">avfilter.vflip</property>
+    </filter>
+    <filter id="filter8" in="00:28:00.000" out="00:28:09.400">
+      <property name="start">1</property>
+      <property name="level">00:00:08.433=1;00:00:09.400=0</property>
+      <property name="mlt_service">brightness</property>
+      <property name="shotcut:filter">fadeOutBrightness</property>
+      <property name="alpha">1</property>
+      <property name="shotcut:animOut">00:00:01.000</property>
+    </filter>
+  </producer>
+  <playlist id="playlist2">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V3</property>
+    <blank length="00:00:04.233"/>
+    <entry producer="chain3" in="00:00:00.000" out="00:00:04.167"/>
+    <entry producer="producer2" in="00:28:00.000" out="00:28:09.400"/>
+  </playlist>
+  <chain id="chain4" out="00:00:04.200">
+    <property name="length">00:00:04.233</property>
+    <property name="eof">pause</property>
+    <property name="resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">avformat-novalidate</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="ignore_points">0</property>
+    <property name="shotcut:caption">vid01_00.webm</property>
+    <property name="xml">was here</property>
+  </chain>
+  <producer id="producer3" in="00:00:00.000" out="00:28:13.300">
+    <property name="length">00:28:13.333</property>
+    <property name="eof">pause</property>
+    <property name="resource">0.0025:/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="aspect_ratio">1</property>
+    <property name="seekable">1</property>
+    <property name="audio_index">-1</property>
+    <property name="video_index">0</property>
+    <property name="mute_on_pause">1</property>
+    <property name="warp_speed">0.0025</property>
+    <property name="warp_resource">/home/kiko/Documentos/Projeto Julie_Marcelo/VersãoWEB/vid01_00.webm</property>
+    <property name="mlt_service">timewarp</property>
+    <property name="shotcut:producer">avformat</property>
+    <property name="video_delay">0</property>
+    <property name="shotcut:hash">547d2e835a732444972592625e905352</property>
+    <property name="shotcut:caption">vid01_00.webm (0.0025x)</property>
+    <property name="xml">was here</property>
+    <filter id="filter9" in="00:28:00.000" out="00:28:13.033">
+      <property name="start">1</property>
+      <property name="level">00:00:12.067=1;00:00:13.033=0</property>
+      <property name="mlt_service">brightness</property>
+      <property name="shotcut:filter">fadeOutBrightness</property>
+      <property name="alpha">1</property>
+      <property name="shotcut:animOut">00:00:01.000</property>
+    </filter>
+  </producer>
+  <playlist id="playlist3">
+    <property name="shotcut:video">1</property>
+    <property name="shotcut:name">V4</property>
+    <entry producer="chain4" in="00:00:00.000" out="00:00:04.167"/>
+    <entry producer="producer3" in="00:28:00.000" out="00:28:13.033"/>
+  </playlist>
+  <tractor id="tractor0" title="Shotcut version 22.01.30" in="00:00:00.000" out="00:00:17.833">
+    <property name="shotcut">1</property>
+    <property name="shotcut:projectAudioChannels">2</property>
+    <property name="shotcut:projectFolder">0</property>
+    <property name="shotcut:scaleFactor">11.2108</property>
+    <track producer="background"/>
+    <track producer="playlist0"/>
+    <track producer="playlist1"/>
+    <track producer="playlist2"/>
+    <track producer="playlist3"/>
+    <transition id="transition0">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition1">
+      <property name="a_track">0</property>
+      <property name="b_track">1</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="threads">0</property>
+      <property name="disable">1</property>
+    </transition>
+    <transition id="transition2">
+      <property name="a_track">0</property>
+      <property name="b_track">2</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition3">
+      <property name="a_track">1</property>
+      <property name="b_track">2</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="threads">0</property>
+      <property name="disable">0</property>
+    </transition>
+    <transition id="transition4">
+      <property name="a_track">0</property>
+      <property name="b_track">3</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition5">
+      <property name="a_track">1</property>
+      <property name="b_track">3</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="threads">0</property>
+      <property name="disable">0</property>
+    </transition>
+    <transition id="transition6">
+      <property name="a_track">0</property>
+      <property name="b_track">4</property>
+      <property name="mlt_service">mix</property>
+      <property name="always_active">1</property>
+      <property name="sum">1</property>
+    </transition>
+    <transition id="transition7">
+      <property name="a_track">1</property>
+      <property name="b_track">4</property>
+      <property name="version">0.9</property>
+      <property name="mlt_service">frei0r.cairoblend</property>
+      <property name="threads">0</property>
+      <property name="disable">0</property>
+    </transition>
+  </tractor>
+</mlt>
